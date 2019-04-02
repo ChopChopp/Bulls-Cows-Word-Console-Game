@@ -1,1 +1,11 @@
 *.agdai
+*.cd
+*.vcxproj
+*.pdb
+*.obj
+*.log
+*.tlog
+*.lastbuildstate
+*.exe
+*.ilk
+*.sln
