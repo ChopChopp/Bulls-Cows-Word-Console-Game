@@ -42,6 +42,10 @@ FBullCowCount FBullCowGame::SubmitGuess(FString)
 	FBullCowCount BullCowCount;
 	
 	//loop through all letters in the guess
+	int32 HiddenWordLength = MyHiddenWord.length();
+	for (int32 i = 0; i < MyHiddenWord.length(); i++) {
+
+	}
 		// compare letters against the hidden word
 	return BullCowCount;
 }
