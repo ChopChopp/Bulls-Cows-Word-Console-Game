@@ -8,9 +8,18 @@ FBullCowGame::FBullCowGame()
 	Reset();
 }
 
-int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
-int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
-
+int32 FBullCowGame::GetMaxTries() const { 
+	return MyMaxTries; 
+}
+int32 FBullCowGame::GetCurrentTry() const { 
+	return MyCurrentTry; 
+}
+int32 FBullCowGame::GetHiddenWordLength() const {
+	return MyHiddenWord.length();
+}
+bool FBullCowGame::IsGameWon() const{
+	return bGameIsWon;
+}
 
 void FBullCowGame::Reset()
 {
@@ -20,32 +29,57 @@ void FBullCowGame::Reset()
 	const FString HIDDEN_WORD = "planet";
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
+	bGameIsWon = false;
 	return;
 }
 
-bool FBullCowGame::IsGameWon() const
-{
-	return false;
-}
 
-bool FBullCowGame::CheckGuessValidity(FString)
+
+EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	return false;
+	if (false) {
+		return EGuessStatus::Not_Isogram;
+	}
+	else if (false) {
+		return EGuessStatus::Not_Lowercase;
+	}
+	else if (Guess.length() != GetHiddenWordLength()) {
+		return EGuessStatus::Wrong_Length;
+	}
+	else {
+		return EGuessStatus::OK;
+	}
+
 }
 
 //receives a VALID guess, increments turn, and returns counts
-FBullCowCount FBullCowGame::SubmitGuess(FString)
+FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 {
 	//increment the turn number
 	MyCurrentTry++;
 	//setup a return variable
 	FBullCowCount BullCowCount;
-	
-	//loop through all letters in the guess
-	int32 HiddenWordLength = MyHiddenWord.length();
-	for (int32 i = 0; i < MyHiddenWord.length(); i++) {
+	int32 WordLength = MyHiddenWord.length();
 
+	//loop through all letters in the guess
+	for (int32 i = 0; i < MyHiddenWord.length(); i++) {
+		for (int32 j = 0; j < MyHiddenWord.length(); j++) {
+			if (Guess[i] == MyHiddenWord[j]) {
+				if (j == i) {
+					BullCowCount.Bulls++;
+				}
+				else {
+					BullCowCount.Cows++;
+				}
+			}
+		}
 	}
-		// compare letters against the hidden word
+	// compare letters against the hidden word
+	if (BullCowCount.Bulls == WordLength) {
+		bGameIsWon = true;
+	}
+	else {
+		bGameIsWon = false;
+	}
 	return BullCowCount;
 }
